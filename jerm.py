@@ -10,7 +10,7 @@ merged_file = "merged.pdf"
 
 def jerm_resume(pdf_file):
     input_pdf = PdfFileReader(pdf_file)
-    watermark_pdf = PdfFileReader(open(base_path+random.choice(watermark), "rb"))
+    watermark_pdf = PdfFileReader(open(base_path+"/"+random.choice(watermark), "rb"))
 
     pdf_page = input_pdf.getPage(0)
     pdf_page.mergePage(watermark_pdf.getPage(0))
