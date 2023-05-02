@@ -7,5 +7,6 @@ RUN pip3 install -r requirement.txt
 
 COPY server.py .
 COPY jerm.py .
+COPY assets .
 
 CMD ["python", "server.py"]
