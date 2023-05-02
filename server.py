@@ -64,7 +64,7 @@ def send_file():
 
     file_id = random_id()
     fo = io.BytesIO(file_blob)
-    print(file_blob)
+
     client_s3.upload_fileobj(fo, BUCKET_NAME, f'raw/{file_id}.pdf')
     client_sqs.send_message(
         QueueUrl=QUEUE_URL,
