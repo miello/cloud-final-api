@@ -19,6 +19,4 @@ def jerm_resume(pdf_file):
     output = PdfFileWriter()
     output.addPage(pdf_page)
 
-    stream = io.BytesIO()
-    output.write(stream)
-    return stream
+    return io.BytesIO(output)
