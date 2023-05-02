@@ -39,10 +39,6 @@ def check_verified_email(email: str) -> bool:
 def healthz():
     return {'message': 'health OK'}
 
-
-if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=PORT)
-
 @app.post('/upload')
 @cross_origin()
 def send_file():
