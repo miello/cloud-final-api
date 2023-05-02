@@ -68,6 +68,7 @@ def send_file():
 
     # Jerm resume
     jermed = jerm_resume(fo)
+    jermed.seek(0)
 
     client_s3.upload_fileobj(jermed, BUCKET_NAME, f'raw/{file_id}.pdf')
     client_sqs.send_message(
