@@ -8,7 +8,7 @@ pdf_file = "doc.pdf"
 watermark = ["watermark1.pdf","watermark2.pdf"]
 merged_file = "merged.pdf"
 
-def jerm(pdf_file):
+def jerm_resume(pdf_file):
     input_pdf = PdfFileReader(pdf_file)
     watermark_pdf = PdfFileReader(open(base_path+random.choice(watermark), "rb"))
 
