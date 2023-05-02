@@ -1,6 +1,7 @@
 from PyPDF3 import PdfFileMerger, PdfFileWriter, PdfFileReader
 import random
 import os
+import io
 
 merger = PdfFileMerger()
 file_dir = os.path.dirname(os.path.realpath('__file__'))
@@ -18,4 +19,6 @@ def jerm_resume(pdf_file):
     output = PdfFileWriter()
     output.addPage(pdf_page)
 
-    return open(merged_file,'wb')
+    stream = io.BytesIO()
+    output.write(stream)
+    return stream.getvalue()
