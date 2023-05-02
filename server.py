@@ -52,7 +52,8 @@ def send_file():
     client_s3.upload_fileobj(file, BUCKET_NAME, f'raw/{file_id}.pdf')
     client_sqs.send_message(
         QueueUrl=QUEUE_URL,
-        MessageBody=json.dumps({'file_id': file_id, 'email': email}),
+        MessageBody=json.dumps(
+            {'file_id': file_id, 's3_key': f'raw/{file_id}.pdf',  'email': email}),
         MessageAttributes={
             'file_id': {
                 'DataType': 'String',
@@ -61,6 +62,10 @@ def send_file():
             'email': {
                 'DataType': 'String',
                 'StringValue': email
+            },
+            's3_key': {
+                'DataType': 'String',
+                'StringValue': f'raw/{file_id}.pdf'
             }
         }
     )
