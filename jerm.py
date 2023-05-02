@@ -3,8 +3,7 @@ import random
 
 merger = PdfFileMerger()
 
-base_path = "./assets/watermark"
-pdf_file = "doc.pdf"
+base_path = "assets/watermark"
 watermark = ["watermark1.pdf","watermark2.pdf"]
 merged_file = "merged.pdf"
 
