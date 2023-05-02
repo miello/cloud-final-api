@@ -1,9 +1,10 @@
 from PyPDF3 import PdfFileMerger, PdfFileWriter, PdfFileReader
 import random
+import os
 
 merger = PdfFileMerger()
-
-base_path = "assets/watermark"
+file_dir = os.path.dirname(os.path.realpath('__file__'))
+base_path = os.path.join(file_dir, "assets/watermark")
 watermark = ["watermark1.pdf","watermark2.pdf"]
 merged_file = "merged.pdf"
 
