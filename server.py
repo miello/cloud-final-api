@@ -3,6 +3,7 @@ from flask import Flask, request
 import os
 import boto3
 import random
+import io
 import json
 from mimetypes import MimeTypes
 from dotenv import load_dotenv
@@ -34,10 +35,12 @@ def check_verified_email(email: str) -> bool:
     response = client_ses.list_verified_email_addresses()
     return email in response['VerifiedEmailAddresses']
 
+
 @app.get('/healthz')
 @cross_origin()
 def healthz():
     return {'message': 'health OK'}
+
 
 @app.post('/upload')
 @cross_origin()
@@ -46,11 +49,9 @@ def send_file():
     file = request.files['file']
 
     file_id = random_id()
+    file_blob = file.read()
 
-    open(f'./{file_id}', 'wb').close()
-    file_length = len(file.read())
-
-    if file_length > 8 * 1024 * 1024:
+    if len(file_blob) > 8 * 1024 * 1024:
         return {'message': 'File too large'}, 400
 
     email = form['email']
@@ -62,7 +63,9 @@ def send_file():
         return {'message': 'Email not verified'}, 400
 
     file_id = random_id()
-    client_s3.upload_fileobj(file, BUCKET_NAME, f'raw/{file_id}.pdf')
+    fo = io.BytesIO(file_blob)
+    print(file_blob)
+    client_s3.upload_fileobj(fo, BUCKET_NAME, f'raw/{file_id}.pdf')
     client_sqs.send_message(
         QueueUrl=QUEUE_URL,
         MessageBody=json.dumps(
