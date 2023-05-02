@@ -21,4 +21,4 @@ def jerm_resume(pdf_file):
 
     stream = io.BytesIO()
     output.write(stream)
-    return stream.getvalue()
+    return stream
