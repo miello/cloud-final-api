@@ -34,6 +34,14 @@ def check_verified_email(email: str) -> bool:
     response = client_ses.list_verified_email_addresses()
     return email in response['VerifiedEmailAddresses']
 
+@app.get('/healthz')
+@cross_origin()
+def healthz():
+    return {'message': 'health OK'}
+
+
+if __name__ == '__main__':
+    app.run(host='0.0.0.0', port=PORT)
 
 @app.post('/upload')
 @cross_origin()
@@ -44,9 +52,7 @@ def send_file():
     file_id = random_id()
 
     open(f'./{file_id}', 'wb').close()
-    file.save(f'./{file_id}')
-    file_length = os.stat(f'./{file_id}').st_size
-    os.remove(f'./{file_id}')
+    file_length = len(file.read())
 
     if file_length > 8 * 1024 * 1024:
         return {'message': 'File too large'}, 400
