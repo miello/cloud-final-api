@@ -7,6 +7,7 @@ import io
 import json
 from mimetypes import MimeTypes
 from dotenv import load_dotenv
+from jerm import jerm
 
 load_dotenv()
 
@@ -65,7 +66,10 @@ def send_file():
     file_id = random_id()
     fo = io.BytesIO(file_blob)
 
-    client_s3.upload_fileobj(fo, BUCKET_NAME, f'raw/{file_id}.pdf')
+    # Jerm resume
+    jermed = jerm(fo)
+
+    client_s3.upload_fileobj(jermed, BUCKET_NAME, f'raw/{file_id}.pdf')
     client_sqs.send_message(
         QueueUrl=QUEUE_URL,
         MessageBody=json.dumps(
