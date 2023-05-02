@@ -40,6 +40,17 @@ def check_verified_email(email: str) -> bool:
 def send_file():
     form = request.form
     file = request.files['file']
+
+    file_id = random_id()
+
+    open(f'./{file_id}', 'wb').close()
+    file.save(f'./{file_id}')
+    file_length = os.stat(f'./{file_id}').st_size
+    os.remove(f'./{file_id}')
+
+    if file_length > 8 * 1024 * 1024:
+        return {'message': 'File too large'}, 400
+
     email = form['email']
 
     if file.mimetype != 'application/pdf':
